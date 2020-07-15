@@ -51,7 +51,8 @@
       "import": "/import",
       "submissionSuccess": "/submission-success"
     },
-    "editMilestone": "/edit-milestone"
+    "editMilestone": "/edit-milestone",
+    "pageNotFound": "/page-not-found"
   },
   "features": {
     "twoFactorAuth": true,
