@@ -361,7 +361,7 @@ const getAllEntities = async () => {
   return allEntities;
 }
 
-const createEntityHierarchy = async () => {
+const createEntityHierarchy = async (category) => {
   const cached = cache.get(`entityHierarchy-all`);
   if(cached) {
     return JSON.parse(cached);
@@ -373,12 +373,14 @@ const createEntityHierarchy = async () => {
     throw new Error('No entited found in database');
   }
 
-  const topLevelEntites = allEntities.filter(entity => !entity.parents.length)
+  const topLevelEntites = allEntities.filter(entity => entity.categoryId === category.id)
 
   let entitesInHierarchy = [];
   for(const topLevelEntity of topLevelEntites) {
     const entitesMapped = mapEntityChildren(allEntities, topLevelEntity);
-    await mapProjectsToEntities(entitesMapped);
+    if(entitesMapped.length) {
+      await mapProjectsToEntities(entitesMapped);
+    }
     entitesInHierarchy.push(entitesMapped)
   }
 
@@ -625,7 +627,7 @@ const overview = async (transitionReadinessThemeDetailLink, headlinePublicIds) =
     where: { name: 'Statement' }
   });
 
-  const allThemes = await createEntityHierarchy();
+  const allThemes = await createEntityHierarchy(themeCategory);
 
   allThemes.forEach(entity => {
     groupById(entity);
