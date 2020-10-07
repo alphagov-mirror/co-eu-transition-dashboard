@@ -88,11 +88,13 @@ class MeasureList extends Page {
         model: EntityFieldEntry,
         include: CategoryField
       },{
+        // get direct parent of measure i.e. outcome statement
         model: Entity,
         as: 'parents',
         include: [{
           model: Category
         }, {
+          // get direct parents of outcome statement i.e. theme ( and possibly another outcome statement )
           model: Entity,
           as: 'parents',
           include: [{
