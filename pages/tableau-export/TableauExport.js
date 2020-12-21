@@ -13,9 +13,9 @@ const moment = require('moment');
 const cloneDeep = require('lodash/cloneDeep');
 const authentication = require('services/authentication');
 const { tableauIpWhiteList } = require('middleware/ipWhitelist');
-const entityUserPermissions = require('middleware/entityUserPermissions');
 const Role = require('models/role');
 const logger = require('services/logger');
+const EntityHelper = require('helpers/entity.js');
 
 class TableauExport extends Page {
   get url() {
@@ -62,6 +62,7 @@ class TableauExport extends Page {
   }
 
   async entitiesRoleCanAccess(roleName) {
+    const entityHelper = new EntityHelper();
     const role = await Role.findOne({
       where: {
         name: roleName
@@ -73,8 +74,10 @@ class TableauExport extends Page {
       throw new Error(`Cannot find role: ${roleName}`);
     }
 
-    const entities = await entityUserPermissions.entitiesRoleCanAccess(role);
-    return entities.map(entity => entity.id);
+    await entityHelper.init();
+    const entities = entityHelper.entitiesWithRoles([role]);
+
+    return Object.keys(entities);
   }
 
   async addParents(entity, entityFieldMap, replaceArraysWithNumberedKeyValues = true) {

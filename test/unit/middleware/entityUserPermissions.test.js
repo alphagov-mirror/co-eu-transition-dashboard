@@ -2,7 +2,6 @@ const Entity = require('models/entity');
 const { expect, sinon } = require('test/unit/util/chai');
 const entityUserPermissions = require('middleware/entityUserPermissions');
 const Role = require('models/role');
-const RoleEntity = require('models/roleEntity');
 const UserRole = require('models/userRole');
 const transitionReadinessData = require('helpers/transitionReadinessData');
 
@@ -23,12 +22,16 @@ describe('middleware/entityUserPermissions', () => {
       const entities = [{
         publicId: 'entity 01',
         id: 1,
-        children: []
+        children: [],
+        parents: [],
+        roleEntities: [{ roleId: 1 }]
       },
       {
         publicId: 'entity 02',
         id: 2,
-        children: []
+        children: [],
+        parents: [],
+        roleEntities: [{ roleId: 1 }]
       }];
 
       Entity.findAll.resolves(entities);
@@ -58,30 +61,39 @@ describe('middleware/entityUserPermissions', () => {
         },
       });
 
-      sinon.assert.calledWith(Entity.findAll, {
-        attributes: ['publicId', 'id'],
-        include: {
-          model: RoleEntity,
-          where: {
-            roleId: 1
-          }
-        }
-      });
-
       sinon.assert.called(next);
-      expect(res.locals.entitiesUserCanAccess).to.eql(entities);
+      expect(res.locals.entitiesUserCanAccess).to.eql([
+        {
+          publicId: 'entity 01',
+          id: 1,
+          children: [],
+          parents: [],
+          roles: [1]
+        },
+        {
+          publicId: 'entity 02',
+          id: 2,
+          children: [],
+          parents: [],
+          roles: [1]
+        }
+      ]);
     });
 
     it('sets locals.entitiesUserCanAccess with all entities user can access via blacklist', async () => {
       const entities = [{
         publicId: 'entity 01',
         id: 1,
-        children: []
+        children: [],
+        parents: [],
+        roleEntities: [{ roleId: 1 }]
       },
       {
         publicId: 'entity 02',
         id: 2,
-        children: []
+        children: [],
+        parents: [],
+        roleEntities: []
       }];
 
       Entity.findAll.resolves([entities[0]]);
@@ -106,18 +118,14 @@ describe('middleware/entityUserPermissions', () => {
         }
       });
 
-      sinon.assert.calledWith(Entity.findAll, {
-        attributes: ['publicId', 'id'],
-        include: {
-          model: RoleEntity,
-          where: {
-            roleId: 1
-          }
-        }
-      });
-
       sinon.assert.called(next);
-      expect(res.locals.entitiesUserCanAccess).to.eql([entities[0]]);
+      expect(res.locals.entitiesUserCanAccess).to.eql([{
+        publicId: 'entity 01',
+        id: 1,
+        children: [],
+        parents: [],
+        roles: [1]
+      }]);
     });
   });
 });
