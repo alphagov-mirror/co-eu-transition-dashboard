@@ -5,6 +5,8 @@ const config = require('config');
 const transitionReadinessData = require('helpers/transitionReadinessData');
 const { ipWhiteList } = require('middleware/ipWhitelist');
 const entityUserPermissions = require('middleware/entityUserPermissions');
+const DAO = require('services/dao');
+const sequelize = require('services/sequelize');
 
 class Theme extends Page {
   static get isEnabled() {
@@ -41,6 +43,18 @@ class Theme extends Page {
       throw `Cannot fetch data for ${this.req.params.theme}`;
     }
     return data;
+  }
+
+  async canAccessProject(projectUid) {
+    const dao = new DAO({
+      sequelize: sequelize
+    });
+
+    const projects = await dao.getAllData(this.req.user.id, {
+      uid: [ projectUid ]
+    });
+
+    return projects.length;
   }
 }
 

@@ -89,7 +89,7 @@ class EditMilestone extends Page {
     const parsedData = {};
 
     milestoneFields.forEach(field => {
-      if(!milestone[field.name]) {
+      if(milestone[field.name] === undefined) {
         return;
       }
 

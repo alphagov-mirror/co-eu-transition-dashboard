@@ -73,8 +73,10 @@
     {{ activeStatementBox(activeStatement, activeColor) }}
     {% set selectedItem = data.selected %}
     {% if projectedIsSelected %}
+      {% set showViewLinks = canAccessProject(selectedItem.publicId) | await %}
       {% include "theme/partials/projectDetails.njk" %}
     {% elseif milestoneIsSelected %}
+      {% set showViewLinks = canAccessProject(selectedItem.parents[0].publicId) | await %}
       {% include "theme/partials/milestoneDetails.njk" %}
     {% elseif isCommentOnlyMeasure %}
       {% include "theme/partials/commentOnlyMeasure.njk" %}

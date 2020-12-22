@@ -30,7 +30,7 @@
   <canvas id="milestone-timeline" aria-label="Milestone delivery timeline" role="img"></canvas>
 
   <br><br>
-  {% if req.user.roles | includes(['management']) %}
+  {% if (req.user.roles | includes(['management'])) and showViewLinks %}
     <a class="govuk-link" href="{{ config.paths.milestoneDetails | replace(':uid', selectedItem.publicId | urlencode) }}">View Milestone</a> &nbsp;&nbsp;
     <a class="govuk-link" href="{{ config.paths.projectDetails | replace(':uid', selectedItem.parents[0].publicId | urlencode) }}">View Project</a>
   {% endif %}
