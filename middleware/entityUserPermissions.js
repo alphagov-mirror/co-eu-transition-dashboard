@@ -5,12 +5,11 @@ const EntityHelper = require('helpers/entity.js');
 
 async function entitiesUserCanAccess(user) {
   const entityHelper = new EntityHelper();
-  await entityHelper.init();
 
   let whitelist = [];
   if (user.canViewAllData) {
     //console.log("Allowing user to view all data");
-    whitelist = entityHelper.allEntities;
+    whitelist = await entityHelper.getAllEntities();
   } else {
     let roles = await Role.findAll({
       include: {
@@ -19,7 +18,7 @@ async function entitiesUserCanAccess(user) {
       }
     });
 
-    whitelist = entityHelper.entitiesWithRoles(roles);
+    whitelist = await entityHelper.entitiesWithRoles(roles);
   }
 
   return Object.values(whitelist);

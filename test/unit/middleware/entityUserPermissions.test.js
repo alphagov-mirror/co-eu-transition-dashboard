@@ -68,14 +68,22 @@ describe('middleware/entityUserPermissions', () => {
           id: 1,
           children: [],
           parents: [],
-          roles: [1]
+          roles: {
+            1: {
+              roleId: 1
+            }
+          }
         },
         {
           publicId: 'entity 02',
           id: 2,
           children: [],
           parents: [],
-          roles: [1]
+          roles: {
+            1: {
+              roleId: 1
+            }
+          }
         }
       ]);
     });
@@ -124,7 +132,11 @@ describe('middleware/entityUserPermissions', () => {
         id: 1,
         children: [],
         parents: [],
-        roles: [1]
+        roles: {
+          1: {
+            roleId: 1
+          }
+        }
       }]);
     });
   });

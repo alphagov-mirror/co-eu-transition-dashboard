@@ -3,63 +3,56 @@ const RoleEntity = require('models/roleEntity');
 
 class EntityHelper {
   constructor() {
-    this.entityMap = {};
+    this.entities = this.constructEntityMap();
   }
 
-  async init() {
-    return this.constructEntityMap();
-  }
+  constructEntityMap() {
+    return Entity.findAll({
+      attributes: ['publicId', 'id'],
+      include: [
+        {
+          // separate: true,
+          attributes: ['id'],
+          model: Entity,
+          as: 'children'
+        }, {
+          // separate: true,
+          attributes: ['id'],
+          model: Entity,
+          as: 'parents'
+        }, {
+          attributes: ['roleId'],
+          model: RoleEntity
+        }
+      ]
+    }).then(entities => {
+      return entities.reduce((entities, entity) => {
+        entity.roles = entity.roleEntities.reduce((roles, role) => {
+          roles[role.roleId] = role;
+          return roles;
+        }, {});
+        delete entity.roleEntities;
 
-  async constructEntityMap() {
-    const entites = await Entity.findAll({
-      include: [{
-        model: Entity,
-        as: 'children'
-      },{
-        model: Entity,
-        as: 'parents'
-      },
-      {
-        model: RoleEntity
-      }]
+        entities[entity.id] = entity;
+
+        return entities;
+      }, {});
     });
-
-    const entityMap = entites.reduce((entityMap, entity) => {
-      entityMap[entity.id] = {
-        id: entity.id,
-        publicId: entity.publicId,
-        roles: entity.roleEntities.map(role => role.roleId),
-        parents: entity.parents.map(parent => {
-          return {
-            id: parent.id,
-            publicId: parent.publicId
-          };
-        }),
-        children: entity.children.map(child => {
-          return {
-            id: child.id,
-            publicId: child.publicId
-          };
-        })
-      };
-      return entityMap;
-    }, {});
-
-    this.entityMap = entityMap;
   }
 
-  get allEntities() {
-    return Object.values(this.entityMap);
+  async getAllEntities() {
+    return Object.values(await this.entities);
   }
 
-  entitiesWithRoles(roles) {
-    return Object.values(this.entityMap).reduce((entitiesWithRoles, entity) => {
-      const entityHasRole = roles.find(role => entity.roles.includes(role.id));
-      if(entityHasRole) {
-        entitiesWithRoles[entity.id] = entity;
-      }
-      return entitiesWithRoles;
-    }, {});
+  async entitiesWithRoles(roles) {
+    return Object.values(await this.entities)
+      .reduce((entitiesWithRoles, entity) => {
+        const entityHasRole = roles.find(role => entity.roles[String(role.id)]);
+        if(entityHasRole) {
+          entitiesWithRoles[entity.id] = entity;
+        }
+        return entitiesWithRoles;
+      }, {});
   }
 }
 

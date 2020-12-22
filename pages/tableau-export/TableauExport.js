@@ -62,7 +62,6 @@ class TableauExport extends Page {
   }
 
   async entitiesRoleCanAccess(roleName) {
-    const entityHelper = new EntityHelper();
     const role = await Role.findOne({
       where: {
         name: roleName
@@ -74,8 +73,8 @@ class TableauExport extends Page {
       throw new Error(`Cannot find role: ${roleName}`);
     }
 
-    await entityHelper.init();
-    const entities = entityHelper.entitiesWithRoles([role]);
+    const entityHelper = new EntityHelper();
+    const entities = await entityHelper.entitiesWithRoles([role]);
 
     return Object.keys(entities);
   }
