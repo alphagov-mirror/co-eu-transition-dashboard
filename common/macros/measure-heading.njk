@@ -1,3 +1,5 @@
+{% from "status.njk" import currentStatus %}
+
 {% macro measureHeading(latestMeasure, raygEntity, updatedAt, isPartOfGroup, isUpdateDue) %}
 <table class="govuk-table measures-table">
   <thead class="govuk-table__head">
@@ -16,7 +18,7 @@
       <td class="govuk-table__cell">{{ latestMeasure.metricID }}</td>
       <td class="govuk-table__cell">{{ latestMeasure.theme }}</td>
       {% if not isPartOfGroup %}
-        <td class="govuk-table__cell "><span class="measure-rayg {{ raygEntity.colour }}"></span></td>
+        <td class="govuk-table__cell current-status-icon">{{ currentStatus(latestMeasure.colour, false) }}</td>
       {% endif %}
       <td class="govuk-table__cell">{{ updatedAt }}</td>
       <td class="govuk-table__cell {{isUpdateDue}}">{{ latestMeasure.updateDueOn }}</td>

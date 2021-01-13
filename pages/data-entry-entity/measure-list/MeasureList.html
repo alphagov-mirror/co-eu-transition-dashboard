@@ -8,6 +8,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "status.njk" import currentStatus %}
 
 {% block beforeContent %}
   {% include "navigation.njk" %}
@@ -30,8 +31,8 @@
           <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
               <td class="govuk-table__cell fix-width-75 govuk-!-padding-0">
-                <p class="govuk-body govuk-!-font-size-16">
-                  <strong>Group status</strong>: <span class="rayg-status rayg-block {{ group.colour }} govuk-!-margin-right-5" alt="RAYG status is: {{ group.colour }}"></span>
+                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-5 govuk-!-margin-bottom-0">
+                 <strong>Group status</strong>: {{ currentStatus(group.colour, false) }}<br>
                   <strong>Group theme</strong>: <span class="govuk-!-margin-right-5">{{ group.theme }}</span>
                   <strong>Last updated</strong>: <span>{{ group.updatedAt }}</span>
                 </p>
@@ -62,8 +63,8 @@
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">{{ measure.metricID }}</td>
                 <td class="govuk-table__cell">{{ measure.name }}</td>
-                <td class="govuk-table__cell govuk-table__cell__small">
-                  <div class="rayg-status rayg-block {{ measure.colour }}" alt="RAYG status is: {{ measure.colour }}"></div>
+                <td class="govuk-table__cell govuk-table__cell__small current-status-icon">
+                  {{ currentStatus(measure.colour, false) }}
                 </td>
                 <td class="govuk-table__cell">{{ "Yes" if measure.commentsOnly else "No" }}</td>
                 <td class="govuk-table__cell">{{ measure.updatedAtDate }}</td>
@@ -122,8 +123,8 @@
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">{{ measure.metricID }}</td>
               <td class="govuk-table__cell">{{ measure.name }}</td>
-              <td class="govuk-table__cell govuk-table__cell__small">
-                <div class="rayg-status rayg-block {{ measure.colour }}" alt="RAYG status is: {{ measure.colour }}"></div>
+              <td class="govuk-table__cell govuk-table__cell__small current-status-icon">
+                {{ currentStatus(measure.colour, false) }}
               </td>
               <td class="govuk-table__cell">{{ "Yes" if measure.commentsOnly else "No" }}</td>
               <td class="govuk-table__cell">{{ measure.updatedAt }}</td>

@@ -203,3 +203,12 @@
 .text-align-right {
   text-align: right;
 }
+
+.current-status-icon {
+  p {
+    display: none !important;
+  }
+  img {
+    top: 0;
+  }
+}
