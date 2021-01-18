@@ -6,16 +6,17 @@
 {% set user = getUser() | await %}
 
 {% block beforeContent %}
+{% if successMode %}
   {% include "navigation.njk" %}
-  {% if not successMode %}
-    {{ govukBackLink({
+{% else %}
+  {{ govukBackLink({
       text: "Back",
       href: "#",
       attributes: {
         onclick: "history.go(-1); return false;"
       }
-    }) }}
-  {% endif %}
+  }) }}
+{% endif %}
 {% endblock %}
 
 {% block pageTitle %}Deactivate User{% endblock %}

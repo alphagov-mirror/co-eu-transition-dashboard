@@ -12,11 +12,14 @@
 {% from "status.njk" import currentStatus %}
 
 {% block beforeContent %}
+{% if successfulMode %}
   {% include "navigation.njk" %}
+{% else %}
   {{ govukBackLink({
     text: "Back",
     href: config.paths.dataEntryEntity.measureList
   }) }}
+{% endif %}
 {% endblock %}
 
 {% block pageTitle %}Measures Edit{% endblock %}

@@ -204,13 +204,13 @@
         {% if url in adminUrls or url in addEntitiesUrls %}
           <li class="govuk-header__navigation child-navigation">
             <ul class="govuk-header__navigation-noPadding" aria-label="Child navigation">
-              <li class="govuk-header__navigation-item child-item {{ 'govuk-header__navigation-item--active' if url == config.paths.admin.projectFieldList }}">
+              <li class="govuk-header__navigation-item child-item {{ 'govuk-header__navigation-item--active' if url == config.paths.admin.projectFieldList or url == config.paths.admin.projectField }}">
                 <a class="govuk-header__link child-nav" href="{{ config.paths.admin.projectFieldList }}">
                 MI data structure
                 </a>
               </li>
               {% if config.features.entityData %}
-              <li class="govuk-header__navigation-item child-item {{ 'govuk-header__navigation-item--active' if url == config.paths.admin.categoryList }}">
+              <li class="govuk-header__navigation-item child-item {{ 'govuk-header__navigation-item--active' if url == config.paths.admin.categoryList or url == config.paths.admin.categoryField }}">
                 <a class="govuk-header__link child-nav" href="{{ config.paths.admin.categoryList }}">
                 Manage categories
                 </a>

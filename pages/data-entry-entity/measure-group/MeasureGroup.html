@@ -11,15 +11,17 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 
-
 {% block beforeContent %}
+{% if successfulMode %}
   {% include "navigation.njk" %}
+{% else %}
   {{ govukBackLink({
     text: "Back",
     attributes: {
       onclick: "history.go(-1); return false;"
     }
   }) }}
+{% endif %}
 {% endblock %}
 
 {% block pageTitle %}Measures{% endblock %}

@@ -10,7 +10,6 @@
 {% block pageTitle %}{{ category.name }} Fields{% endblock %}
 
 {% block beforeContent %}
-  {% include "navigation.njk" %}
   {{ govukBackLink({
     text: "Back",
     href: "#",
@@ -25,7 +24,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-  <h1 class="govuk-heading-l">{{ category.name }} fields</h1>
+  <h1 class="govuk-heading-l">{{ "Re-order fields" if editMode else category.name + " fields" }}</h1>
 
   {% if editMode and flash %}
   {{ govukErrorSummary({
@@ -41,13 +40,13 @@
   {% if not editMode %}
   <p class="govuk-body-l">Changes made to the data input fields will
   be reflected in the downloadable template for the {{ category.name }} import and export. </p>
-  {% endif %}
 
   <p class="govuk-body">
     <a href="{{ config.paths.admin.categoryField }}/{{category.id}}" class="govuk-link">Add a new field</a><br>
-    <a href="{{ config.paths.admin.categoryFieldList }}/{{category.id}}/edit" class="{{ 'reorder-link' if editMode else 'govuk-link' }}">Re-order fields</a><br>
+    <a href="{{ config.paths.admin.categoryFieldList }}/{{category.id}}/edit" class="govuk-link">Re-order fields</a><br>
   </p>
   <hr class="govuk-section-break govuk-section-break--m">
+  {% endif %}
 
   </div>
 </div>

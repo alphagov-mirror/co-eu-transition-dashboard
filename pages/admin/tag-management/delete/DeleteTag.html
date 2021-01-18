@@ -9,6 +9,17 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+    text: "Back",
+    href: "#",
+    attributes: {
+      onclick: "history.go(-1); return false;"
+    }
+}) }}
+{% endblock %}
 
 {% block pageTitle %}Delete Tag{% endblock %}
 
@@ -61,7 +72,7 @@
       {{ govukButton({
         text: "Back to tag list",
         href: config.paths.admin.tagManagementList,
-        classes: "govuk-button--secondary"
+        classes: "govuk-button--secondary govuk-!-margin-right-2"
       }) }}
 
       {{ govukButton({

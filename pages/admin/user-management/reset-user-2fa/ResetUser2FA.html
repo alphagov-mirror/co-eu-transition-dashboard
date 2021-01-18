@@ -7,15 +7,16 @@
 {% set user = getUser() | await %}
 
 {% block beforeContent %}
-{% include "navigation.njk" %}
-{% if not successMode %}
-{{ govukBackLink({
-  text: "Back",
-  href: "#",
-  attributes: {
-    onclick: "history.go(-1); return false;"
-  }
-}) }}
+{% if successMode %}
+  {% include "navigation.njk" %}
+{% else %}
+  {{ govukBackLink({
+      text: "Back",
+      href: "#",
+      attributes: {
+        onclick: "history.go(-1); return false;"
+      }
+  }) }}
 {% endif %}
 {% endblock %}
 

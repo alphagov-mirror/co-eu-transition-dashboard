@@ -7,7 +7,17 @@
 {% set parentEntitiesByCategory = getParentEntities(selectedEntity) | await %}
 
 {% block beforeContent %}
+{% if successMode %}
   {% include "navigation.njk" %}
+{% else %} 
+    {{ govukBackLink({
+        text: "Back",
+        href: "#",
+        attributes: {
+            onclick: "history.go(-1); return false;"
+        }
+    }) }}
+{% endif %}
 {% endblock %}
 
 {% block pageTitle %}Remap Entities{% endblock %}

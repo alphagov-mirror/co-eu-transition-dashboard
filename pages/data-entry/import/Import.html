@@ -5,6 +5,9 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
+{% block beforeContent %}
+{% endblock %}
+
 {% block pageTitle %}Import data{% endblock %}
 
 {% block content %}
@@ -137,7 +140,7 @@
   <form action='{{ url }}' method='POST'>
     <input type="hidden" name="importId" value="{{ importId }}" />
     {{ govukButton({
-    text: "Upload new file",
+    text: "Cancel or upload new file",
     name: "cancel",
     value: "cancel",
     type: "submit",

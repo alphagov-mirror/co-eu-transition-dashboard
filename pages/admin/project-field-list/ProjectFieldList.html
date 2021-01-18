@@ -2,6 +2,21 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block beforeContent %}
+{% if editMode %}
+  {{ govukBackLink({
+      text: "Back",
+      href: "#",
+      attributes: {
+          onclick: "history.go(-1); return false;"
+      }
+  }) }}
+{% else %} 
+  {% include "navigation.njk" %}
+{% endif %}
+{% endblock %}
 
 {% set fields = getFields() | await %}
 {% set fieldGroups = getProjectGroups() | await %}

@@ -6,11 +6,14 @@
 {% from "measure-value.njk" import measureValue %}
 
 {% block beforeContent %}
+{% if successfulMode %}
   {% include "navigation.njk" %}
+{% else %}
   {{ govukBackLink({
     text: "Back",
     href: backUrl
   }) }}
+{% endif %}
 {% endblock %}
 
 {% block pageTitle %}Delete Measure{% endblock %}

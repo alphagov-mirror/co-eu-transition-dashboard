@@ -14,11 +14,14 @@
 {% set errorMessages = errors if errors else flash %}
 
 {% block beforeContent %}
+{% if successfulMode %}
   {% include "navigation.njk" %}
+{% else %}
   {{ govukBackLink({
     text: "Back",
     href: backLink
   }) }}
+{% endif %}
 {% endblock %}
 
 {% block pageTitle %}Edit Measure Value{% endblock %}
