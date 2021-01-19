@@ -11,7 +11,7 @@
 
 {% block content %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
 
     {% if flash %}
       <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
@@ -47,7 +47,7 @@
             <td class="govuk-table__cell">{{ staticExport.updated_at | date ("DD/MM/YYYY HH:mm:ss", "x") }}</td>
             <td class="govuk-table__cell">
               {% if staticExport.status == 'complete' %}
-                <a class="govuk-link" href="{{ url }}/{{ getS3Id(staticExport.url) }}">
+                <a class="govuk-link edit-link" href="{{ url }}/{{ getS3Id(staticExport.url) }}">
                   Download
                 </a>
               {% endif %}
